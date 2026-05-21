@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect, useCallback } from "react";
+import SportLogo from "@/components/SportLogo";
 
 const NAVY = "#05274C";
 
@@ -86,7 +87,7 @@ function BarcodeIcon() {
 function ShirtIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <path d="M20.38 3.46L16 2l-4 4-4-4L3.62 3.46C2.64 3.78 2 4.7 2 5.73V8l3 2v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10l3-2V5.73c0-1.03-.64-1.95-1.62-2.27z" stroke={NAVY} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M17.7813 4.45996C17.8711 4.45996 17.951 4.49983 18.0011 4.55957L23.8311 11.0498C23.9211 11.1498 23.9316 11.3099 23.8516 11.4199L20.6817 15.9102C20.5817 16.0601 20.3713 16.0799 20.2413 15.96L17.9112 13.8896V23.7002C17.9111 23.8701 17.7813 24 17.6114 24H6.52156C6.35164 24 6.22188 23.8701 6.22176 23.7002V13.9004L3.89168 15.9697C3.76168 16.0897 3.55125 16.0699 3.45125 15.9199L0.151446 11.4199C0.0714919 11.2999 0.0719728 11.14 0.171953 11.04L6.13191 4.55957C6.19187 4.49978 6.27181 4.45996 6.35164 4.45996H7.27352C7.49875 6.80909 9.43159 8.66381 11.8243 8.78418L12.0723 8.79004C14.5781 8.78988 16.6373 6.88951 16.8702 4.45996H17.7813ZM15.8624 4.45996C15.6338 6.33156 14.03 7.78988 12.0723 7.79004C10.1145 7.79004 8.51003 6.33166 8.28133 4.45996H15.8624Z" fill={NAVY} />
     </svg>
   );
 }
@@ -193,12 +194,12 @@ function SportBrandSwitcher({ onONClick }: { onONClick: () => void }) {
         onClick={onONClick}
         style={{ width: 195, height: 56, background: "none", border: "none", borderBottom: "3px solid transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", paddingLeft: 16, paddingRight: 16 }}
       >
-        <ONWordmark fill={NAVY} />
+        <ONWordmark fill="#4a4a4a" />
       </button>
       <button
         style={{ width: 195, height: 56, background: "none", border: "none", borderBottom: `4px solid ${NAVY}`, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", paddingLeft: 16, paddingRight: 16 }}
       >
-        <Image src="/images/on_sport.png" width={108} height={32} alt="OLD NAVY Sport" style={{ filter: "none" }} />
+        <SportLogo color={NAVY} />
       </button>
     </div>
   );

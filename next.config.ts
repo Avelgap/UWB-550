@@ -9,10 +9,9 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_BASE_PATH: isProd ? "/UWB-550" : "",
   },
-  images: {
-    loader: "custom",
-    loaderFile: "./src/lib/imageLoader.ts",
-  },
+  images: isProd
+    ? { loader: "custom", loaderFile: "./src/lib/imageLoader.ts" }
+    : { unoptimized: true },
 };
 
 export default nextConfig;
