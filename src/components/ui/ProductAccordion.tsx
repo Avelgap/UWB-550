@@ -128,7 +128,7 @@ export default function ProductAccordion() {
             <span className="font-medium">Fitted through hip</span>
           </div>
           <div>
-            <span className="font-medium">28" inseam</span>
+            <span className="font-medium">28&quot; inseam</span>
           </div>
           <div>
             <span className="font-medium">Fitted through thigh</span>

@@ -102,7 +102,7 @@ export default function ProductDetails() {
             </button>
           ))}
         </div>
-        <p className="text-sm text-gray-600 mt-2">Best for heights 5'4-5'8</p>
+        <p className="text-sm text-gray-600 mt-2">Best for heights 5&apos;4-5&apos;8</p>
       </div>
 
       {/* Size Selection */}

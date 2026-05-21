@@ -48,7 +48,7 @@ export default function ProductImage() {
 
       {/* Size Guide Indicator */}
       <div className="text-center pb-4">
-        <span className="text-sm text-gray-600">5'7 Model wearing size S</span>
+        <span className="text-sm text-gray-600">5&apos;7 Model wearing size S</span>
       </div>
     </div>
   );
