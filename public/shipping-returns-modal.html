@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" data-brand="on">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shipping &amp; Returns – Old Navy</title>
+  <style>
+    /* ── ON brand tokens (crossbrand base + ON overrides) ── */
+    :root {
+      --font-base: 'ON Sans Text v1', system-ui, -apple-system, Arial, sans-serif;
+      --font-weight-default: 400;
+      --font-weight-heavier: 600;
+
+      --text-size-body:    14px;
+      --text-size-caption: 12px;
+      --text-size-dialog:  16px;
+
+      --color-white:        rgba(255 255 255 / 1);
+      --color-type-copy:    rgba(0 0 0 / 1);
+      --color-type-subtle:  rgba(74 74 74 / 1);
+      --color-type-link:    rgba(5 39 76 / 1);
+      --color-link-hover:   rgba(5 39 76 / 1);
+      --color-border-dim:   rgba(206 206 206 / 1);
+      --color-icon-default: rgba(0 0 0 / 1);
+
+      --spacing-2xs: 4px;
+      --spacing-xs:  6px;
+      --spacing-s:   8px;
+      --spacing-m:   12px;
+      --spacing-l:   16px;
+      --spacing-xl:  24px;
+      --spacing-2xl: 32px;
+
+      --radius-modal: 0px;   /* ON uses square corners */
+      --z-modal: 805;
+
+      --border-width: 1px;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-base);
+      font-size: var(--text-size-body);
+      color: var(--color-type-copy);
+      background: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    button { cursor: pointer; background: none; border: none; padding: 0; }
+    ul { list-style: disc; padding-left: var(--spacing-xl); }
+    a { text-decoration: none; }
+
+    /* ── Backdrop ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0 0 0 / 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: var(--z-modal);
+      padding: var(--spacing-xl);
+    }
+
+    /* ── Modal shell ── */
+    .fds_modal {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      border-radius: var(--radius-modal);
+      background: var(--color-white);
+      position: relative;
+      z-index: var(--z-modal);
+    }
+
+    /* ── Skinny header ── */
+    .fds_modal__header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--spacing-s) var(--spacing-m);
+      background: var(--color-white);
+      border-radius: var(--radius-modal) var(--radius-modal) 0 0;
+    }
+    .fds_modal__header {
+      width: 100%;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fds_modal-header-close-icon {
+      position: absolute;
+      right: var(--spacing-m);
+      top: var(--spacing-s);
+    }
+    .fds_modal-header-close-icon button {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .fds_modal-header-close-icon svg {
+      fill: var(--color-icon-default);
+    }
+    .fds_modal-header-close-icon button:hover svg path { fill: var(--color-type-subtle); }
+
+    /* ── Scrollable content area ── */
+    .fds_modal__modal-content {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: var(--spacing-xl);
+      background: var(--color-white);
+      border-radius: 0 0 var(--radius-modal) var(--radius-modal);
+    }
+
+    /* ── Typography ── */
+    .fds__core-web-copy {
+      font-family: var(--font-base);
+      font-weight: var(--font-weight-default);
+      font-size: var(--text-size-body);
+      line-height: 1.5;
+      color: var(--color-type-copy);
+    }
+    .fds__dialog-header {
+      font-family: var(--font-base);
+      font-weight: var(--font-weight-heavier);
+      font-size: var(--text-size-dialog);
+      line-height: 1.4;
+      color: var(--color-type-copy);
+    }
+    .fds__global-navigation-caption {
+      font-family: var(--font-base);
+      font-weight: var(--font-weight-default);
+      font-size: var(--text-size-caption);
+      line-height: 1.4;
+      color: var(--color-type-subtle);
+    }
+    .fds_link {
+      display: inline;
+      text-align: center;
+      line-height: normal;
+      border-bottom: var(--border-width) solid transparent;
+      color: var(--color-type-subtle);
+    }
+    .fds_link:hover {
+      border-bottom-color: var(--color-link-hover);
+      color: var(--color-link-hover);
+    }
+
+    /* ── Logo bar ── */
+    .sw-shipping-and-returns-modal__logo-bar-container {
+      margin-bottom: 0;
+    }
+    .sw-shipping-and-returns-modal__logo-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-m);
+      padding-bottom: var(--spacing-l);
+    }
+    .sw-shipping-and-returns-modal__logo-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+    .sw-shipping-and-returns-modal__logo-item svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ── Divider ── */
+    .sw-shipping-and-returns-modal__divider-container {
+      width: 100%;
+    }
+    .sw-shipping-and-returns-modal__divider-spacing  { margin-bottom: var(--spacing-l); }
+    .sw-shipping-and-returns-modal__divider-spacing2 { margin: var(--spacing-l) 0; }
+
+    /* ── Content sections ── */
+    .sw-shipping-and-returns-modal__dropship-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-l);
+    }
+    .sw-shipping-and-returns-modal__dropship-notice {
+      color: var(--color-type-subtle);
+    }
+    .sw-shipping-and-returns-modal__modal-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-s);
+    }
+    .sw-shipping-and-returns-modal__title {
+      margin-bottom: var(--spacing-2xs);
+    }
+    .sw-shipping-and-returns-modal__items-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+    }
+    .sw-shipping-and-returns-modal__items-list li {
+      color: var(--color-type-subtle);
+    }
+
+    /* ── Disclaimer ── */
+    .sw-shipping-and-returns-modal__disclaimer-container {
+      margin-top: 0;
+    }
+    .sw-shipping-and-returns-modal__disclaimer-text {
+      color: var(--color-type-subtle);
+      line-height: 1.5;
+    }
+    .sw-shipping-and-returns-modal__inline-link {
+      color: var(--color-type-subtle);
+      border-bottom: var(--border-width) solid var(--color-border-dim);
+    }
+    .sw-shipping-and-returns-modal__inline-link:hover {
+      color: var(--color-link-hover);
+      border-bottom-color: var(--color-link-hover);
+    }
+
+    /* ── Hidden state ── */
+    .modal-backdrop.is-hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Backdrop + modal -->
+  <div class="modal-backdrop" id="backdrop" role="presentation">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="model-header"
+      class="fds_modal fds_modal--skinny-header sw-shipping-and-returns-modal"
+    >
+
+      <!-- Skinny header (close button only) -->
+      <div id="modal-header-container" class="fds_modal__header-container">
+        <div id="model-header" class="fds_modal__header fds_modal__header--center">
+          <div class="fds_modal-header-close-icon">
+            <button aria-label="Click to close the Modal" onclick="document.getElementById('backdrop').classList.add('is-hidden')">
+              <svg width="25" height="24" viewBox="0 0 25 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.72781 5.47502C6.03155 5.17127 6.52402 5.17127 6.82777 5.47502L19.2721 17.9193C19.5759 18.2231 19.5759 18.7155 19.2721 19.0193C18.9684 19.323 18.4759 19.323 18.1722 19.0193L5.72781 6.57497C5.42406 6.27123 5.42406 5.77876 5.72781 5.47502Z" fill="#000000"/>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M19.2722 5.47488C19.5759 5.77862 19.5759 6.27109 19.2722 6.57483L6.82782 19.0191C6.52408 19.3229 6.03161 19.3229 5.72787 19.0191C5.42412 18.7154 5.42412 18.2229 5.72787 17.9192L18.1722 5.47488C18.476 5.17113 18.9684 5.17113 19.2722 5.47488Z" fill="#000000"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scrollable content -->
+      <div id="modal-content" class="fds_modal__modal-content">
+        <div id="content" class="fds_modal__content">
+
+          <!-- Brand logo bar -->
+          <div class="sw-shipping-and-returns-modal__logo-bar-container">
+            <div class="sw-shipping-and-returns-modal__logo-bar">
+
+              <!-- Gap -->
+              <div class="sw-shipping-and-returns-modal__logo-item sw-shipping-and-returns-modal__gap-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="24" viewBox="0 0 23 24" fill="none">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M11.1752 0H0V23.3333H22.3503V0H11.1752Z" fill="#333333"/>
+                  <g transform="translate(5.5 7.5)">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.91817 0.0171401H8.42815V0.128252H8.85387V8.12825C8.85387 8.35047 8.74744 8.35047 8.53458 8.35047H8.42815V8.68381H10.131V8.57269H9.91817C9.70531 8.57269 9.59889 8.46159 9.49245 8.23936V8.12825V4.90603H10.0246C10.5568 5.01714 10.9825 4.68381 11.0889 4.12825V4.01714V0.906029C11.0889 0.350474 10.5568 -0.093971 9.91817 0.0171401ZM10.4503 4.23936C10.4503 4.46158 10.2375 4.68381 10.0246 4.79492H9.59888V0.350474H10.0246C10.3439 0.350474 10.5568 0.572696 10.5568 0.906029L10.4503 4.23936ZM6.72526 8.12825L5.7674 0.128252H5.12881L4.17095 8.12825C4.17095 8.35047 4.06452 8.57269 3.74522 8.57269H3.6388V8.68381H4.7031V8.57269C4.49024 8.57269 4.27738 8.46159 4.27738 8.23936V8.12825L4.59666 4.90603H5.44811L5.87383 8.23936C5.87383 8.46159 5.87382 8.46158 5.66096 8.57269H5.55453V8.68381H7.04456V8.57269C6.93813 8.46158 6.72526 8.35047 6.72526 8.12825ZM4.80953 4.68381L5.23525 1.23936L5.66096 4.68381H4.80953ZM1.1909 4.90603H1.61662V8.12825C1.61662 8.35047 1.40376 8.57269 1.1909 8.57269C0.978039 8.57269 0.765177 8.35047 0.765177 8.12825V0.794918C0.765177 0.572695 0.76518 0.128252 1.08447 0.128252C1.40376 0.239363 1.61662 0.461584 1.61662 0.794918C1.72305 1.35047 1.72305 2.01714 1.72305 2.5727C1.72305 2.68381 1.72305 2.79492 1.82948 2.79492C1.82948 2.79492 1.82948 2.79492 1.93591 2.79492H2.2552V0.0171401H2.04234V0.128252C2.04234 0.239363 1.93591 0.239362 1.93591 0.239362C1.72305 0.0171399 1.40376 0.0171401 1.08447 0.0171401C0.55232 0.0171401 0.126599 0.350474 0.0201688 0.906029C0.0201688 1.01714 0.0201688 1.01714 0.0201688 1.12825V7.46158C-0.0862614 8.01714 0.233024 8.68381 0.871605 8.79492C0.978035 8.79492 1.08447 8.79492 1.1909 8.79492C1.51019 8.79492 1.72305 8.68381 2.04234 8.46158C2.14877 8.46158 2.2552 8.46158 2.2552 8.68381H2.46806V4.90603H2.78735V4.79492L1.1909 4.90603Z" fill="white"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Old Navy -->
+              <div class="sw-shipping-and-returns-modal__logo-item sw-shipping-and-returns-modal__on-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="61" height="11" viewBox="0 0 61 11" fill="none">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M56.5144 4.55556L54.8115 0.222222H52.3636L55.2372 6.88889V10H57.6851V6.88889L60.5588 0.222222H58.1109L56.5144 4.55556ZM47.8936 7.11111L46.4035 0.222222H43.9556L46.4035 10H49.2772L51.725 0.222222H49.2772L47.8936 7.11111ZM41.827 0.222222H38.5277L35.9734 10H38.2084L38.7406 8.11111H41.827L42.3592 10H44.5942L41.827 0.222222ZM39.1663 6.33333L40.2306 2.22222L41.2949 6.33333H39.1663ZM32.5676 5.88889L29.4812 0.222222H27.2461V10H29.4812V4.33333L32.5676 10H34.8027V0.222222H32.5676V5.88889ZM23.4146 5.11111C23.5211 3.77778 23.0953 2.33333 22.2439 1.33333C21.4989 0.444444 20.3282 0.111111 19.1574 0.222222H16.0709V10H19.1574C20.3282 10.2222 21.3925 9.77778 22.2439 8.88889C23.0953 7.88889 23.5211 6.55556 23.4146 5.11111ZM20.541 7.33333C20.2217 7.88889 19.5831 8.22222 18.9446 8.11111H18.4124V2.11111H18.9446C19.5831 2 20.2217 2.33333 20.541 2.88889C20.8603 3.55556 21.0732 4.33333 21.0732 5.11111C21.1796 5.88889 20.9667 6.66667 20.541 7.33333ZM11.4944 0.222222H9.25942V10H14.9002V8.11111H11.4944V0.222222ZM4.04433 0C1.49001 0 0 2 0 5.11111C0 8 1.59644 10.1111 4.04433 10.1111C6.59866 10.1111 8.08868 8 8.08868 5.11111C8.08868 2.11111 6.49223 0 4.04433 0ZM4.04433 8.22222C2.76717 8.22222 2.23502 6.22222 2.23502 5.11111C2.23502 4 2.44788 1.88889 4.04433 1.88889C5.64079 1.88889 5.85366 4 5.85366 5.11111C5.85366 6.22222 5.3215 8.22222 4.04433 8.22222Z" fill="#333333"/>
+                </svg>
+              </div>
+
+              <!-- Banana Republic -->
+              <div class="sw-shipping-and-returns-modal__logo-item sw-shipping-and-returns-modal__br-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="57" height="19" viewBox="0 0 57 19" fill="none">
+                  <g transform="translate(3.5 0)">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M4.36363 2.11111C4.36363 3.55556 2.8736 3.66667 2.23502 3.66667C1.91573 3.66667 1.70287 3.66667 1.70287 3.66667V0.666667C1.70287 0.666667 2.02217 0.666667 2.55432 0.666667C3.40576 0.555555 4.2572 1.11111 4.36363 2.11111C4.36363 2 4.36363 2 4.36363 2.11111ZM6.38581 6C6.38581 4 3.72506 3.88889 3.72506 3.88889C3.72506 3.88889 5.53436 3.44444 5.53436 2C5.53436 0.444444 3.51219 0.222222 2.55432 0.222222H0C0.21286 0.333333 0.425714 0.555555 0.425714 0.777778V7.77778C0.425714 8 0.31929 8.22222 0 8.33333H2.87361C5.85365 8.22222 6.38581 6.88889 6.38581 6ZM5.10863 5.88889C5.10863 7.66667 3.1929 7.77778 2.34146 7.77778C1.91574 7.77778 1.70287 7.77778 1.70287 7.77778V4.22222C1.70287 4.22222 2.34145 4.22222 2.76717 4.22222C3.83148 4.22222 5.10863 4.44444 5.10863 5.88889ZM12.0266 5.33333H9.04656C9.68514 4.11111 10.5366 2 10.5366 2C10.5366 2 11.2816 3.88889 12.0266 5.33333ZM15.2195 8.22222C14.9002 8.11111 14.6874 7.88889 14.5809 7.66667C14.3681 7.22222 10.9623 0 10.9623 0C10.9623 0 7.55653 7.22222 7.34367 7.66667C7.23724 7.88889 7.02438 8.11111 6.70509 8.22222H8.30154C8.08868 8.22222 7.98226 8 7.98226 7.77778C7.98226 7.66667 7.98225 7.66667 8.08868 7.55556C8.19511 7.44444 8.51441 6.66667 8.94013 5.77778H12.4523C12.878 6.66667 13.1973 7.44444 13.3038 7.55556C13.4102 7.77778 13.3038 8 12.9845 8.11111L15.2195 8.22222ZM23.0953 0.777778V8.44444C23.0953 8.44444 16.7095 1.66667 16.7095 1.55556V7.77778C16.7095 8 16.816 8.22222 17.1352 8.33333H15.7516C15.9645 8.22222 16.0709 8 16.0709 7.77778V1.22222C16.0709 1 16.0709 0.777778 15.8581 0.666667C15.6452 0.444444 15.4324 0.333333 15.2195 0.222222H17.0288L22.3503 6V0.666667C22.3503 0.444444 22.2439 0.222222 22.031 0.111111H23.4146C23.2018 0.222222 23.0953 0.444444 23.0953 0.777778ZM29.2683 5.33333H26.2882C26.9268 4.11111 27.7783 2 27.7783 2C27.7783 2 28.6297 3.88889 29.2683 5.33333ZM32.4612 8.22222C32.1419 8.11111 31.929 7.88889 31.8226 7.66667C31.6097 7.22222 28.204 0 28.204 0C28.204 0 24.7982 7.22222 24.5854 7.66667C24.4789 7.88889 24.2661 8.11111 23.9468 8.22222H25.5432C25.3304 8.22222 25.2239 8 25.2239 7.77778C25.2239 7.66667 25.2239 7.66667 25.3304 7.55556C25.3304 7.44444 25.7561 6.66667 26.1818 5.77778H29.694C30.1197 6.66667 30.439 7.44444 30.5454 7.55556C30.6519 7.77778 30.5454 8 30.2262 8.11111L32.4612 8.22222ZM40.4435 0.777778V8.44444C40.4435 8.44444 34.0576 1.66667 34.0576 1.55556V7.77778C34.0576 8 34.1641 8.22222 34.4834 8.33333H33.0998C33.3126 8.22222 33.4191 8 33.4191 7.77778V1.22222C33.4191 1 33.419 0.777778 33.2062 0.666667C32.9933 0.444444 32.7805 0.333333 32.5676 0.222222H34.3769L39.6984 6V0.666667C39.6984 0.444444 39.592 0.222222 39.3792 0.111111H40.7627C40.6563 0.222222 40.4435 0.444444 40.4435 0.777778ZM46.51 5.33333H43.5299C44.1685 4.11111 45.0199 2 45.0199 2C45.0199 2 45.8714 3.88889 46.51 5.33333ZM49.7029 8.22222C49.3836 8.11111 49.1707 7.88889 49.0643 7.66667C48.8514 7.22222 45.4457 0 45.4457 0C45.4457 0 42.0399 7.22222 41.827 7.66667C41.7206 7.88889 41.5077 8.11111 41.1884 8.22222H42.7849C42.572 8.22222 42.4656 8 42.4656 7.77778C42.4656 7.66667 42.4656 7.66667 42.5721 7.55556C42.6785 7.44444 42.9978 6.66667 43.4235 5.77778H46.9357C47.3614 6.66667 47.6807 7.44444 47.7871 7.55556C47.8936 7.77778 47.7871 8 47.4679 8.11111L49.7029 8.22222Z" fill="#333333"/>
+                  </g>
+                  <g transform="translate(0 10)">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M34.5898 2.11111C34.5898 3.66667 33.0998 3.77778 32.4612 3.77778C32.1419 3.77778 31.929 3.77778 31.929 3.77778V0.777777C31.929 0.777777 32.2483 0.777777 32.7805 0.777777C33.6319 0.555555 34.4834 1.11111 34.5898 2.11111ZM36.612 6.11111C36.612 4.11111 33.9512 4 33.9512 4C33.9512 4 35.7605 3.55556 35.7605 2.11111C35.7605 0.444445 33.7383 0.222222 32.7805 0.222222H30.2262C30.439 0.333333 30.6519 0.555555 30.6519 0.777777V7.88889C30.6519 8.11111 30.5454 8.33333 30.2262 8.44444H33.0998C35.9734 8.33333 36.612 7 36.612 6.11111ZM35.3348 6C35.3348 7.77778 33.4191 7.88889 32.5676 7.88889C32.1419 7.88889 31.929 7.88889 31.929 7.88889V4.33333C31.929 4.33333 32.5676 4.33333 32.9933 4.33333C34.0576 4.22222 35.3348 4.55556 35.3348 6ZM4.57648 2.22222C4.57648 3.22222 3.72505 4.11111 2.76717 4C2.66074 4 2.66075 4 2.55432 4C2.23503 4 1.80931 4 1.80931 4V0.666667C1.80931 0.666667 2.23502 0.666667 2.76717 0.666667C3.61862 0.555556 4.47005 1.11111 4.57648 2C4.57648 2.11111 4.57648 2.11111 4.57648 2.22222ZM7.87582 8.33333C7.55653 8.22222 7.23724 8.11111 7.02438 7.88889C6.27937 7 5.64079 6.11111 5.00221 5.11111C4.68292 4.66667 4.25721 4.33333 3.72506 4.22222C4.78936 4.22222 5.64078 3.33333 5.64078 2.22222C5.64078 1.44444 5.21507 0.222222 2.55432 0.222222H0C0.21286 0.333333 0.319277 0.555555 0.319277 0.777777V7.88889C0.319277 8.11111 0.21286 8.33333 0 8.44444H2.02217C1.80931 8.33333 1.70288 8.11111 1.59645 7.88889V4.55555H2.34146C2.87361 4.66667 3.40576 5 3.61862 5.55556C4.04434 6.22222 4.57649 7 5.21507 7.88889C5.42793 8.22222 5.85365 8.44444 6.27937 8.44444L7.87582 8.33333ZM14.0488 8.33333H8.72727C8.94013 8.22222 9.15298 8 9.15298 7.77778V0.666667C9.15298 0.444445 9.04656 0.222223 8.72727 0.111112H13.7295V1C13.4102 0.666667 12.9845 0.555556 12.5587 0.555556H10.2173V3.44444H12.3459C12.5587 3.44444 12.6652 3.33333 12.7716 3.11111V4.33333C12.6652 4.11111 12.4523 4 12.3459 4H10.2173V7.77778H11.8137C13.3038 7.77778 13.7295 7.77778 14.2616 7L14.0488 8.33333ZM20.2217 2.44444C20.2217 4.11111 18.6253 4.33333 17.9867 4.33333C17.7738 4.33333 17.561 4.33333 17.3481 4.22222V0.666667C17.6674 0.666667 17.9867 0.666667 18.1995 0.666667C19.5831 0.666667 20.2217 1.33333 20.2217 2.44444ZM21.3925 2.44444C21.3925 1.55556 20.9667 0.222222 18.306 0.222222H15.7516C15.9645 0.333333 16.0709 0.555555 16.1774 0.777777V7.88889C16.1774 8.11111 16.0709 8.33333 15.7516 8.44444H17.7738C17.561 8.33333 17.4545 8.11111 17.4545 7.88889V4.66667C18.306 4.88889 19.2639 4.88889 20.1153 4.55555C20.7539 4.22222 21.3925 3.33333 21.3925 2.44444ZM29.0554 0.777777V5.77778C29.0554 7.77778 27.6718 8.44444 25.969 8.44444C24.4789 8.44444 22.6696 7.77778 22.6696 5.77778V0.666667C22.6696 0.444445 22.4568 0.222223 22.2439 0.111112H24.3725C24.1596 0.222223 23.9468 0.444445 23.9468 0.666667V5.77778C23.8404 6.88889 24.6918 7.77778 25.6497 7.88889C25.7561 7.88889 25.969 7.88889 26.0754 7.88889C27.8847 7.88889 28.4168 6.88889 28.4168 5.77778V0.666667C28.4168 0.444445 28.3104 0.222223 28.0976 0.111112H29.3747C29.1619 0.222223 29.0554 0.444444 29.0554 0.777777ZM42.9978 8.33333H37.6763C37.8891 8.22222 37.9956 8 38.102 7.77778V0.666667C38.102 0.444445 37.9956 0.222223 37.6763 0.111112H39.6984C39.4856 0.222223 39.3792 0.444445 39.3792 0.666667V7.77778H40.7627C42.3592 7.77778 42.7849 7.77778 43.3171 7L42.9978 8.33333ZM44.4878 8.33333C44.7006 8.22222 44.8071 8 44.8071 7.77778V0.666667C44.8071 0.444445 44.7006 0.222223 44.4878 0.111112H46.51C46.2971 0.222223 46.1907 0.444445 46.1907 0.666667V7.77778C46.1907 8 46.2971 8.22222 46.51 8.33333H44.4878ZM55.9823 7.66667C54.918 8.22222 53.7472 8.44444 52.5765 8.44444C49.9157 8.44444 47.5743 6.77778 47.5743 4.22222C47.5743 2.22222 49.2772 0 52.6829 0C53.7472 0 54.8115 0.222223 55.8758 0.666667L55.9823 2.44444C55.3437 1.22222 54.173 0.444445 52.7894 0.444445C50.235 0.444445 48.9579 2.11111 48.9579 4C48.8514 6 50.4479 7.77778 52.3636 7.77778C52.47 7.77778 52.6829 7.77778 52.7894 7.77778C54.173 7.88889 55.4501 7.11111 55.9823 5.77778C56.1951 6 55.9823 7.66667 55.9823 7.66667Z" fill="#333333"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Athleta -->
+              <div class="sw-shipping-and-returns-modal__logo-item sw-shipping-and-returns-modal__at-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="11" viewBox="0 0 57 8" fill="none">
+                  <path d="M11.4081 4.51852L12.4728 2.2963L13.4615 4.51852H11.4081ZM10.2673 7.03704L11.0278 5.40741H13.9178L14.6023 7.03704H15.7431L12.4728 0L9.12646 7.03704H10.2673Z" fill="#333333"/>
+                  <path d="M17.2642 0.445312V1.3342H18.8613V7.0379H19.85V1.3342H21.371V0.445312H17.2642Z" fill="#333333"/>
+                  <path d="M25.0976 0.445312H24.1089V7.0379H25.0976V3.92679H28.0637V7.0379H29.0523V0.445312H28.0637V3.03791H25.0976V0.445312Z" fill="#333333"/>
+                  <path d="M32.4746 0.445312V7.0379H35.5167V6.07494H33.4633V0.445312H32.4746Z" fill="#333333"/>
+                  <path d="M41.9815 0.445312H38.2549V7.0379H41.9815V6.07494H39.2436V3.85272H41.9054V2.96383H39.2436V1.3342H41.9815V0.445312Z" fill="#333333"/>
+                  <path d="M48.5219 0.445312H44.415V1.3342H45.9361V7.0379H47.0008V1.3342H48.5219V0.445312Z" fill="#333333"/>
+                  <path d="M53.4655 2.22222L54.4542 4.44444H52.4007L53.4655 2.22222ZM51.2599 7.03704L52.0205 5.40741H54.9105L55.595 7.03704H56.7358L53.4655 0L50.1191 7.03704H51.2599Z" fill="#333333"/>
+                  <path d="M3.65054 3.55556L3.04213 5.62963L1.90133 6.07407L3.65054 3.55556L1.82527 4.74074L0.684474 4.37037L3.65054 3.55556L1.52106 3.33333L0.912625 2.37037L3.65054 3.55556L2.12948 2L2.2816 0.814815L3.65054 3.55556L3.49843 1.40741L4.41108 0.592593L3.65054 3.55556L4.94346 1.85185H6.16029L3.65054 3.55556L5.78003 3.03704L6.69267 3.77778L3.65054 3.55556L5.62793 4.51852L5.85608 5.62963L3.65054 3.55556L4.56319 5.48148L4.03081 6.51852L3.65054 3.55556ZM7.30109 3.55556C7.30109 1.55556 5.62793 0 3.65054 0C1.59711 0 0 1.62963 0 3.55556C0 5.55556 1.59711 7.11111 3.65054 7.11111C5.62793 7.11111 7.30109 5.55556 7.30109 3.55556Z" fill="#333333"/>
+                </svg>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Divider 1 -->
+          <div class="sw-shipping-and-returns-modal__divider-container sw-shipping-and-returns-modal__divider-spacing">
+            <svg xmlns="http://www.w3.org/2000/svg" width="450" height="2" viewBox="0 0 450 2" fill="none" preserveAspectRatio="none" style="width:100%;max-width:450px;">
+              <path d="M1 1H449" stroke="#595959" stroke-linecap="round" vector-effect="non-scaling-stroke" stroke-width="2"/>
+            </svg>
+          </div>
+
+          <!-- Dropship content -->
+          <div class="sw-shipping-and-returns-modal__dropship-content">
+
+            <!-- Intro notice -->
+            <div class="fds__core-web-copy sw-shipping-and-returns-modal__dropship-notice">
+              We're partnering with companies and brands we trust to offer you even more when you shop on our websites. Here's what that means for you:
+            </div>
+
+            <!-- Shipping & Returns -->
+            <div class="sw-shipping-and-returns-modal__modal-content">
+              <h3 class="fds__dialog-header sw-shipping-and-returns-modal__title">Shipping &amp; Returns</h3>
+              <ul class="sw-shipping-and-returns-modal__items-list">
+                <li class="fds__core-web-copy">Items sold and shipped by third-party sellers qualify for free shipping</li>
+                <li class="fds__core-web-copy">Items may not qualify for all shipping methods offered by Gap Inc.</li>
+                <li class="fds__core-web-copy">Available shipping methods and prices can be seen at checkout. Some items will require white-glove delivery. If the items qualify, you will be contacted once the item is ready to be scheduled for delivery.</li>
+                <li class="fds__core-web-copy">Shipped items will ship separately, directly from the seller</li>
+                <li class="fds__core-web-copy">Items can't be shipped using UPS Access Points</li>
+              </ul>
+            </div>
+
+            <!-- Data Sharing -->
+            <div class="sw-shipping-and-returns-modal__modal-content">
+              <h3 class="fds__dialog-header sw-shipping-and-returns-modal__title">Data Sharing with our Partners</h3>
+              <ul class="sw-shipping-and-returns-modal__items-list">
+                <li class="fds__core-web-copy">Third-party providers only receive your shipping information, including contact information used only to schedule white-glove delivery, if applicable</li>
+                <li class="fds__core-web-copy">All orders will still be processed securely through our website</li>
+                <li class="fds__core-web-copy">Items are ineligible for Apple Pay</li>
+                <li class="fds__core-web-copy">Made-to-order items are ineligible for Afterpay or PayPal</li>
+              </ul>
+            </div>
+
+          </div>
+
+          <!-- Divider 2 -->
+          <div class="sw-shipping-and-returns-modal__divider-container sw-shipping-and-returns-modal__divider-spacing2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="450" height="2" viewBox="0 0 450 2" fill="none" preserveAspectRatio="none" style="width:100%;max-width:450px;">
+              <path d="M1 1H449" stroke="#595959" stroke-linecap="round" vector-effect="non-scaling-stroke" stroke-width="2"/>
+            </svg>
+          </div>
+
+          <!-- Disclaimer -->
+          <div class="sw-shipping-and-returns-modal__disclaimer-container sw-shipping-and-returns-modal__dropship-content">
+            <div class="sw-shipping-and-returns-modal__disclaimer-text sw-dropship fds__global-navigation-caption">
+              For complete details, see the
+              <a href="https://bananarepublic.gap.com/customerService/info.do?cid=80740&cs=shipping_and_handling" class="fds_link fds__core-web-link-regular sw-shipping-and-returns-modal__inline-link fds_link--subtle fds_link--regular fds_link--disable-visited-style">Banana Republic Shipping Policy</a>,
+              <a href="https://www.gap.com/customer-service/shipping-handling-information?cid=1192375" class="fds_link fds__core-web-link-regular sw-shipping-and-returns-modal__inline-link fds_link--subtle fds_link--regular fds_link--disable-visited-style">Gap Shipping Policy</a>,
+              <a href="https://bananarepublic.gap.com/customerService/info.do?cid=80735&cs=how_to_return_or_exchange" class="fds_link fds__core-web-link-regular sw-shipping-and-returns-modal__inline-link fds_link--subtle fds_link--regular fds_link--disable-visited-style">Banana Republic Returns Policy</a>
+              and
+              <a href="https://www.gap.com/customer-service/how-to-return-exchange-items?cid=81264&cs=return_policies&mlink=55278,28164058,CS_Footer_Returns" class="fds_link fds__core-web-link-regular sw-shipping-and-returns-modal__inline-link fds_link--subtle fds_link--regular fds_link--disable-visited-style">Gap Returns Policy</a>.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reopen button (shown after modal is closed) -->
+  <button
+    id="reopen"
+    onclick="document.getElementById('backdrop').classList.remove('is-hidden'); this.style.display='none';"
+    style="display:none; position:fixed; bottom:24px; left:50%; transform:translateX(-50%); padding:10px 20px; font-family:system-ui,sans-serif; font-size:14px; background:#000; color:#fff; border:none; cursor:pointer; border-radius:4px;"
+  >
+    Open dialog
+  </button>
+
+  <script>
+    // Show reopen button when modal is closed
+    document.querySelector('[aria-label="Click to close the Modal"]').addEventListener('click', function () {
+      document.getElementById('reopen').style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
