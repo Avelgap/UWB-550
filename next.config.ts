@@ -6,8 +6,12 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   output: "export",
   basePath: isProd ? "/UWB-550" : "",
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isProd ? "/UWB-550" : "",
+  },
   images: {
-    unoptimized: true,
+    loader: "custom",
+    loaderFile: "./src/lib/imageLoader.ts",
   },
 };
 
