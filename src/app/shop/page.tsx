@@ -57,6 +57,47 @@ function BatteryIcon() {
 
 // ─── NAV ICONS ──────────────────────────────────────────────────────────────
 
+function SearchIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={NAVY} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
+
+function BarcodeIcon() {
+  return (
+    <svg width="26" height="18" viewBox="0 0 26 18" fill="none">
+      <rect x="0" y="0" width="2" height="18" fill={NAVY} />
+      <rect x="3.5" y="0" width="1" height="18" fill={NAVY} />
+      <rect x="6" y="0" width="2.5" height="18" fill={NAVY} />
+      <rect x="10" y="0" width="1" height="18" fill={NAVY} />
+      <rect x="12.5" y="0" width="2" height="18" fill={NAVY} />
+      <rect x="16" y="0" width="1" height="18" fill={NAVY} />
+      <rect x="18.5" y="0" width="2.5" height="18" fill={NAVY} />
+      <rect x="22.5" y="0" width="1" height="18" fill={NAVY} />
+      <rect x="24.5" y="0" width="1.5" height="18" fill={NAVY} />
+    </svg>
+  );
+}
+
+function SearchBar() {
+  return (
+    <div style={{ height: 56, display: "flex", alignItems: "center", paddingLeft: 16, paddingRight: 8, background: "#fff" }}>
+      <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", border: "1px solid #cecece", borderRadius: 24, paddingLeft: 16, paddingRight: 12, height: 40 }}>
+          <span style={{ fontSize: 14, color: "#4a4a4a", letterSpacing: 0.14 }}>Search for your new fav</span>
+          <SearchIcon />
+        </div>
+        <button style={{ width: 48, height: 48, background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <BarcodeIcon />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function HeartIcon({ size = 24 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={NAVY} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -259,11 +300,12 @@ export default function ShopPage() {
           left: 0,
           width: 390,
           zIndex: 15,
-          transform: overlayVisible ? "translateY(0)" : "translateY(-61px)",
+          transform: overlayVisible ? "translateY(0)" : "translateY(-116px)",
           transition: overlayVisible ? "transform 0.28s ease-out" : "none",
           pointerEvents: overlayVisible ? "auto" : "none",
         }}
       >
+        <SearchBar />
         <BrandSwitcherTabs active="on" onSportClick={goToSport} />
       </div>
 
@@ -285,7 +327,8 @@ export default function ShopPage() {
         {/* Sentinel: observer watches this to know when inline switcher is in view */}
         <div ref={sentinelRef} style={{ height: 1 }} />
 
-        {/* Inline brand switcher — scrolls away naturally on scroll-down */}
+        {/* Inline search + brand switcher — scroll away naturally on scroll-down */}
+        <SearchBar />
         <BrandSwitcherTabs active="on" onSportClick={goToSport} />
 
         {/* Content */}
