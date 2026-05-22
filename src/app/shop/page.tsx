@@ -90,7 +90,7 @@ function SearchBar() {
           <span style={{ fontSize: 14, color: "#4a4a4a", letterSpacing: 0.14 }}>Search for your new fav</span>
           <SearchIcon />
         </div>
-        <button style={{ width: 48, height: 48, background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+        <button style={{ width: 48, height: 48, background: "none", border: "none", cursor: "default", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
           <BarcodeIcon />
         </button>
       </div>
@@ -286,7 +286,7 @@ export default function ShopPage() {
           <span style={{ fontSize: 24, fontWeight: 400, color: NAVY, letterSpacing: -0.3, lineHeight: 1 }}>
             Shop
           </span>
-          <button style={{ width: 40, height: 40, background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: 8 }}>
+          <button style={{ width: 40, height: 40, background: "none", border: "none", cursor: "default", display: "flex", alignItems: "center", justifyContent: "center", padding: 8 }}>
             <HeartIcon />
           </button>
         </div>
@@ -350,7 +350,7 @@ export default function ShopPage() {
           {HERO_CARDS.map((card) => (
             <div
               key={card.label}
-              style={{ flexShrink: 0, width: 140, cursor: "pointer" }}
+              style={{ flexShrink: 0, width: 140, cursor: "default" }}
             >
               <div style={{ width: 140, height: 186, overflow: "hidden", position: "relative" }}>
                 <Image
@@ -380,7 +380,7 @@ export default function ShopPage() {
           }}
         >
           {CATEGORY_CARDS.map((card) => (
-            <div key={card.label} style={{ cursor: "pointer" }}>
+            <div key={card.label} style={{ cursor: "default" }}>
               <div style={{ width: "100%", aspectRatio: "177/177", position: "relative", overflow: "hidden" }}>
                 <Image
                   src={card.src}
@@ -419,30 +419,30 @@ export default function ShopPage() {
         <div style={{ height: 51, width: 390, display: "flex", alignItems: "center", paddingTop: 4, paddingBottom: 4 }}>
 
           {/* Home — 70px wide */}
-          <button style={{ width: 70, height: 43, background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", paddingLeft: 20 }}>
+          <button style={{ width: 70, height: 43, background: "none", border: "none", cursor: "default", display: "flex", alignItems: "center", justifyContent: "center", paddingLeft: 20 }}>
             <ONCircleLogo />
           </button>
 
           {/* Shop — 80px wide */}
-          <button style={{ width: 80, height: 43, background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, paddingTop: 2, paddingBottom: 2 }}>
+          <button style={{ width: 80, height: 43, background: "none", border: "none", cursor: "default", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, paddingTop: 2, paddingBottom: 2 }}>
             <ShirtIcon />
             <span style={{ fontSize: 10, color: NAVY, fontWeight: 500, lineHeight: 1 }}>Shop</span>
           </button>
 
           {/* Deals — 80px wide */}
-          <button style={{ width: 80, height: 43, background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, paddingTop: 2, paddingBottom: 2 }}>
+          <button style={{ width: 80, height: 43, background: "none", border: "none", cursor: "default", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, paddingTop: 2, paddingBottom: 2 }}>
             <DealsIcon />
             <span style={{ fontSize: 10, color: NAVY, fontWeight: 500, lineHeight: 1 }}>Deals</span>
           </button>
 
           {/* Bag — 80px wide */}
-          <button style={{ width: 80, height: 43, background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, paddingTop: 2, paddingBottom: 2 }}>
+          <button style={{ width: 80, height: 43, background: "none", border: "none", cursor: "default", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, paddingTop: 2, paddingBottom: 2 }}>
             <BagIcon count="1" />
             <span style={{ fontSize: 10, color: NAVY, fontWeight: 500, lineHeight: 1 }}>Bag</span>
           </button>
 
           {/* Account — 80px wide */}
-          <button style={{ width: 80, height: 43, background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, paddingTop: 2, paddingBottom: 2 }}>
+          <button style={{ width: 80, height: 43, background: "none", border: "none", cursor: "default", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4, paddingTop: 2, paddingBottom: 2 }}>
             <AccountIcon />
             <span style={{ fontSize: 10, color: NAVY, fontWeight: 500, lineHeight: 1 }}>Account</span>
           </button>
